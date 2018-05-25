@@ -13,7 +13,7 @@ This script will generate a series of directories containing params.par files an
 3. Modify parameters in `CDM_v2_0_batch_parameter_file_initiation.py` as necessary
 4. Execute `CDM_v2_0_batch_parameter_file_initiation.py`. 
 5. To start multiple CDM instances simulateously:
-..5.1. Place `batch_CDM_run.sh` in parent directory
-..5.2. Open file and specify number of cores to use (currently set to 3 cores). Save.
-..5.3. Run `batch_CDM_run.sh`
+   1. Place `batch_CDM_run.sh` in parent directory
+   2. Open file and specify number of cores to use (currently set to 3 cores). Save.
+   3. Run `batch_CDM_run.sh`
 
