@@ -15,19 +15,21 @@ else:
 
 ## Varied model parameters
 wind_fraction_list=np.linspace(0.2, 1.0, 5)
-rep=1;
+rep=np.arange(1);
 
 # combinations of vectors
 x1, x2 = np.meshgrid(wind_fraction_list, rep); ### MODIFY THIS LINE WITH PARAMETERS BEING MANIPULATED
-pairs = np.concatenate((x1, x2))
-n_iter = pairs.shape[1];
+x1 = x1.ravel()
+x2 = x2.ravel()
+pairs = np.column_stack((x1, x2))
+n_iter = x1.shape[0];
 VarNames = ['wind_fraction','replicate']; ### MODIFY THIS LINE WITH NAME OF PARAMETERS BEING MANIPULATED
 
 #n_iter = 1;
 CDM_filename = 'CDM_v2_0'; ### MODIFY THIS LINE WITH THE NAME OF THE CDM PROGRAM FILE
 
-### BE SURE TO ADD X1[0,ii] AND X1[0,ii] AS THE VALUE ASSOCIATED WITH EACH MANIPULATED PARAMETER BELOW.
-### E.G., wind_fraction = x1[0,ii]
+### BE SURE TO ADD X1[ii] AND X1[ii] AS THE VALUE ASSOCIATED WITH EACH MANIPULATED PARAMETER BELOW.
+### E.G., wind_fraction = x1[ii]
 
 for ii in range(n_iter):
     itr=ii+itermax;
@@ -38,7 +40,7 @@ for ii in range(n_iter):
         f.close()
     
     f= open(parent_dir + "iter_metadata.txt","a")
-    f.write('%i\t%f\t%f\n' % (itr+1, pairs[0,ii], pairs[1,ii]))
+    f.write('%i\t%f\t%f\n' % (itr+1, pairs[ii,0], pairs[ii,1]))
     f.close()
     
     sub_dir='model_iter' + str(itr+1) + '/'
@@ -70,7 +72,7 @@ for ii in range(n_iter):
 
     ## wind model parameters
     constwind_u = 0.35;         # shear velocity (m/s) (usually from 0.2 [~transport threshold] to 0.5 [strong winds])
-    wind_fraction = x1[0,ii];        # fraction of the year wind is above threshold (only used for time scales) such that real time is Nt*dt_max / wind.fraction
+    wind_fraction = x1[ii];        # fraction of the year wind is above threshold (only used for time scales) such that real time is Nt*dt_max / wind.fraction
   
     ## storm model:
     calc_storm = 'true';        # initiates storms sub-routine
