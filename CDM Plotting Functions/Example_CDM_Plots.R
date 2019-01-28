@@ -13,10 +13,11 @@ dir <- paste(parent_dir, sub_dir, sep='/')
 
 
 #### 3D animation ####
-p <- CDM.plotly(dir = paste(dir, 'model_iter2', sep='/'))
+p <- CDM.plotly(dir = paste(dir, 'model_iter4', sep='/'))
 p
 htmlwidgets::saveWidget(as_widget(p), file.path(parent_dir, "CDM_animation.html"))
 
+CDM.plotly.timepoint(dir = paste(dir, 'model_iter1', sep='/'), timepoint='100000', xrange=c(1,100))
 
 #### figures ####
 ## Timeseries Plots
@@ -24,25 +25,29 @@ htmlwidgets::saveWidget(as_widget(p), file.path(parent_dir, "CDM_animation.html"
 batch_CDM_df<-batch.CDM.df(dir, pattern = '^h.*')
 n<-names(batch_CDM_df)
 p1 <- batch.CDM.summary.plot(batch_CDM_df, n[6], ylab = "Maximum Dune Elevation (m)")
+p1
 
 # Veg Cover
 batch_CDM_df<-batch.CDM.df(dir, pattern = '^veget_x.*')
 n<-names(batch_CDM_df)
 p2 <- batch.CDM.summary.plot(batch_CDM_df, n[6], ylab = expression("Maximum Proportional Cover"))
-
+p2
 
 ## Final Timepoint Plots
 # Dune Height
-batch_timepoint_df <- batch.timepoint.df(dir, timepoint = '100000')
+batch_timepoint_df <- batch.timepoint.df(dir, timepoint = '100000', pattern = "^h.")
 n<-names(batch_timepoint_df)
-p3 <- batch.CDM.timepoint.plot(batch_CDM_df, n[6])
+p3 <- batch.CDM.timepoint.plot(batch_timepoint_df, n[6])
+p3
 
 # Veg Cover
 batch_timepoint_df <- batch.timepoint.df(dir, timepoint = '100000', pattern = "^veget_x.")
 n<-names(batch_timepoint_df)
-p4 <- batch.CDM.timepoint.plot(subsetbatch_CDM_df, n[6], ylab = "Vegetation Proportional Cover")
+p4 <- batch.CDM.timepoint.plot(batch_timepoint_df, n[6], ylab = "Vegetation Proportional Cover")
+p4
 
 p5 <- grid.arrange(p1, p2, p3, p4, nrow = 2)
+p5
 
 ggsave(file.path(dir, "h.timeseries.png"), 
        plot = p1, # or give ggplot object name as in myPlot,
